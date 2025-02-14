@@ -5,6 +5,7 @@ extends Node2D
 @onready var hiding_spots: Area2D = $World/HidingSpots
 @onready var ray: RayCast2D = $RayCast2D
 @onready var label: Label = $Label
+@onready var stairs: Area2D = $World/Stairs
 
 var hiding_spot: String = ""
 
@@ -17,6 +18,9 @@ func _ready() -> void:
 				_check_hiding_spot(event, shape_idx)
 	)
 	_set_hiding_spot()
+	stairs.body_exited.connect(func(_body: CharacterBody2D):
+		print("figure out which direction and thus which layer to show")
+	)
 
 
 func _check_hiding_spot(_event: InputEventMouseButton, idx: int) -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bogy08m838rqc"]
+[gd_scene load_steps=13 format=4 uid="uid://bogy08m838rqc"]
 
 [ext_resource type="TileSet" uid="uid://bsoy3bvex8g3r" path="res://tileset.tres" id="1_03qd3"]
 [ext_resource type="Texture2D" uid="uid://bblxm3w32oumn" path="res://hide-and-seek.png" id="1_4c7po"]
@@ -15,6 +15,9 @@ radius = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wji2g"]
 size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x6ppk"]
+size = Vector2(16, 16)
 
 [sub_resource type="Shader" id="Shader_e2736"]
 code = "shader_type canvas_item;
@@ -90,6 +93,12 @@ shape = SubResource("CircleShape2D_pd50g")
 [node name="Shower" type="CollisionShape2D" parent="World/HidingSpots"]
 position = Vector2(120, 128)
 shape = SubResource("RectangleShape2D_wji2g")
+
+[node name="Stairs" type="Area2D" parent="World"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Stairs"]
+position = Vector2(104, 168)
+shape = SubResource("RectangleShape2D_x6ppk")
 
 [node name="Mockup" type="Node2D" parent="."]
 visible = false
