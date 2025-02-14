@@ -86,6 +86,4 @@ region_enabled = true
 region_rect = Rect2(8, 0, 16, 16)
 
 [node name="Player" parent="." instance=ExtResource("4_8ndtp")]
-position = Vector2(64, 128)
-speed = null
-position_margin = null
+position = Vector2(77, 125)
