@@ -14,6 +14,7 @@ func _physics_process(_delta: float) -> void:
 	if (current_distance < distance_margin
 	or current_distance > distance_to_target):
 		velocity = Vector2.ZERO
+
 	distance_to_target = current_distance
 
 	move_and_slide()

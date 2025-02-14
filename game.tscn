@@ -1,10 +1,20 @@
-[gd_scene load_steps=8 format=4 uid="uid://bogy08m838rqc"]
+[gd_scene load_steps=12 format=4 uid="uid://bogy08m838rqc"]
 
 [ext_resource type="TileSet" uid="uid://bsoy3bvex8g3r" path="res://tileset.tres" id="1_03qd3"]
 [ext_resource type="Texture2D" uid="uid://bblxm3w32oumn" path="res://hide-and-seek.png" id="1_4c7po"]
+[ext_resource type="Script" path="res://game.gd" id="1_i8lrh"]
 [ext_resource type="PackedScene" uid="uid://duwnmsfmkcw0n" path="res://player.tscn" id="4_8ndtp"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qohi1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vdfpj"]
+size = Vector2(44, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pd50g"]
+radius = 12.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wji2g"]
+size = Vector2(16, 32)
 
 [sub_resource type="Shader" id="Shader_e2736"]
 code = "shader_type canvas_item;
@@ -29,6 +39,7 @@ shader = SubResource("Shader_e2736")
 shader = SubResource("Shader_e2736")
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_i8lrh")
 metadata/_edit_vertical_guides_ = [-48.0, -96.0]
 
 [node name="Bounds" type="StaticBody2D" parent="."]
@@ -59,12 +70,26 @@ tile_map_data = PackedByteArray("AAABAAMAAQAAAAEAAAABAAQAAQAAAAEAAAABAAUAAQAAAAA
 tile_set = ExtResource("1_03qd3")
 
 [node name="Stuff" type="TileMapLayer" parent="World/FirstFloor"]
-tile_map_data = PackedByteArray("AAAJAAwAAQADAAIAAAACAAcAAQAAAAIAAAABAAwAAQAGAAMAAQAEAAUAAQAJAAMAAAAEAAMAAQAJAAMAAwAEAAIAAQAJAAAAAgAEAAEAAQAJAAAAAgABAAMAAQAHAAIAAAADAAUAAQAJAAEAAAACAAUAAQAJAAEAAAABAAUAAQAJAAEAAAABAAQAAQAJAAAAAAABAAIAAQAIAAAAAAALAAcAAQAJAAAAAQALAAgAAQAJAAAAAQAHAAcAAQADAAAAAAABAA4AAQACAAQAAQAFAAoAAQAEAAYAAQAFAAwAAQAHAAMAAQACAA4AAQABAAcAAAAIAAcAAQACAAAAAAABAAEAAQAJAAAAAAADAAwAAQAIAAMAAAA=")
+tile_map_data = PackedByteArray("AAAJAAwAAQADAAIAAAACAAcAAQAAAAIAAAABAAwAAQAGAAMAAQAEAAUAAQAJAAMAAAAEAAMAAQAJAAMAAwAEAAIAAQAJAAAAAgAEAAEAAQAJAAAAAgABAAMAAQAHAAIAAAADAAUAAQAJAAEAAAACAAUAAQAJAAEAAAABAAUAAQAJAAEAAAABAAQAAQAJAAAAAAABAAIAAQAIAAAAAAALAAcAAQAJAAAAAQALAAgAAQAJAAAAAQAHAAcAAQADAAAAAAABAA4AAQACAAQAAQAFAAoAAQAEAAYAAQAFAAwAAQAHAAMAAQAIAAcAAQACAAAAAAABAAEAAQAJAAAAAAADAAwAAQAIAAMAAAACAA4AAQABAAcAAAA=")
 tile_set = ExtResource("1_03qd3")
 
 [node name="Decals" type="TileMapLayer" parent="World/FirstFloor"]
 tile_map_data = PackedByteArray("AAALAAgAAQACAAEAAQALAAcAAQACAAEAAQABAAUAAQACAAIAAAA=")
 tile_set = ExtResource("1_03qd3")
+
+[node name="HidingSpots" type="Area2D" parent="World"]
+
+[node name="Bed" type="CollisionShape2D" parent="World/HidingSpots"]
+position = Vector2(166, 208)
+shape = SubResource("RectangleShape2D_vdfpj")
+
+[node name="Table" type="CollisionShape2D" parent="World/HidingSpots"]
+position = Vector2(48, 128)
+shape = SubResource("CircleShape2D_pd50g")
+
+[node name="Shower" type="CollisionShape2D" parent="World/HidingSpots"]
+position = Vector2(120, 128)
+shape = SubResource("RectangleShape2D_wji2g")
 
 [node name="Mockup" type="Node2D" parent="."]
 visible = false
@@ -87,3 +112,15 @@ region_rect = Rect2(8, 0, 16, 16)
 
 [node name="Player" parent="." instance=ExtResource("4_8ndtp")]
 position = Vector2(77, 125)
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_right = 37.0
+offset_bottom = 12.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 1
+theme_override_font_sizes/font_size = 8
+text = "Not here!"
