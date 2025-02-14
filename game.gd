@@ -6,6 +6,8 @@ extends Node2D
 @onready var ray: RayCast2D = $RayCast2D
 @onready var label: Label = $Label
 
+var hiding_spot: String = ""
+
 
 func _ready() -> void:
 	hiding_spots.input_event.connect(
@@ -14,6 +16,7 @@ func _ready() -> void:
 			and event.pressed):
 				_check_hiding_spot(event, shape_idx)
 	)
+	_set_hiding_spot()
 
 
 func _check_hiding_spot(_event: InputEventMouseButton, idx: int) -> void:
@@ -26,9 +29,14 @@ func _check_hiding_spot(_event: InputEventMouseButton, idx: int) -> void:
 	var res := get_world_2d().direct_space_state.intersect_ray(params)
 	var dist := player.global_position.distance_to(res.position)
 	if dist < 10 and label.global_position == Vector2.ZERO:
-		_spawn_label(res.position, "Not here!")
+		if spot.name == hiding_spot:
+			_spawn_label(res.position, "Here!")
+			_set_hiding_spot()
+		else:
+			_spawn_label(res.position, "Not here!")
 
-func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float = 2.0):
+
+func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float = 2.0) -> void:
 	label.text = text
 	label.global_position = at
 	label.visible = true
@@ -44,3 +52,7 @@ func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float
 		label.modulate.a = 1.0
 		label.text = ""
 	)
+
+
+func _set_hiding_spot() -> void:
+	hiding_spot = hiding_spots.get_children().pick_random().name
