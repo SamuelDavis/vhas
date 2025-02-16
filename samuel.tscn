@@ -1,8 +1,101 @@
-[gd_scene load_steps=2 format=3 uid="uid://cos02363r7axp"]
+[gd_scene load_steps=8 format=3 uid="uid://cos02363r7axp"]
 
 [ext_resource type="Texture2D" uid="uid://huoq5el4wx0x" path="res://hide-and-seek-tileset.png" id="1_0bt7k"]
+[ext_resource type="Script" path="res://samuel.gd" id="1_xjps7"]
 
-[node name="Samuel" type="Sprite2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nye4e"]
+size = Vector2(16, 16)
+
+[sub_resource type="Animation" id="Animation_adljj"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(16, 128, 16, 16)]
+}
+
+[sub_resource type="Animation" id="Animation_sa5tt"]
+resource_name = "hug"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(32, 128, 16, 16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.233333, 0.5, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-2, 0), Vector2(0, 0), Vector2(2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nk2e3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Rect2(16, 128, 16, 16)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_in5i8"]
+_data = {
+"RESET": SubResource("Animation_nk2e3"),
+"hug": SubResource("Animation_sa5tt"),
+"idle": SubResource("Animation_adljj")
+}
+
+[node name="Samuel" type="Area2D"]
+position = Vector2(9.71815e-09, 0)
+script = ExtResource("1_xjps7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_0bt7k")
 region_enabled = true
 region_rect = Rect2(16, 128, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nye4e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_in5i8")
+}

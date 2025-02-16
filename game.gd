@@ -2,7 +2,6 @@ extends Node2D
 
 
 @onready var jessica: CharacterBody2D = $World/Jessica
-@onready var samuel: Sprite2D = $World/Samuel
 @onready var first_hiding_spots: Area2D = $World/FirstFloor/HidingSpots
 @onready var second_hiding_spots: Area2D = $World/SecondFloor/HidingSpots
 @onready var ray: RayCast2D = $RayCast2D
@@ -12,7 +11,9 @@ extends Node2D
 @onready var second_floor: Node2D = $World/SecondFloor
 @onready var active_floor: Node2D = $World/FirstFloor
 
+var samuel: PackedScene = preload("res://samuel.tscn")
 var hiding_spot: String = ""
+var endgame: bool = false
 
 
 func _ready() -> void:
@@ -27,6 +28,7 @@ func _ready() -> void:
 	stairs.body_entered.connect(_toggle_level)
 	_toggle_level(jessica)
 	_toggle_level(jessica)
+
 
 func _toggle_level(body) -> void:
 	if body != jessica: return
@@ -51,7 +53,6 @@ func _toggle_level(body) -> void:
 			child.collision_enabled = true
 		if child is Area2D:
 			child.input_pickable = true
-
 
 
 func _check_hiding_spot(_event: InputEventMouseButton, idx: int, spots: Area2D) -> void:
@@ -93,15 +94,21 @@ func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float
 
 
 func _spawn_samuel(at: Vector2) -> void:
-	samuel.scale = Vector2.ZERO
-	samuel.global_position = at
+	var instance: Area2D = samuel.instantiate()
+	get_tree().root.add_child(instance)
+	instance.scale = Vector2.ZERO
+	instance.global_position = at
 
 	var tween := create_tween()
-	tween.tween_property(samuel, "scale", Vector2.ONE, 1.0)
+	tween.tween_property(instance, "scale", Vector2.ONE, 1.0)
 	tween.finished.connect(func():
-		_set_hiding_spot()
-		samuel.scale = Vector2.ZERO
-		samuel.global_position = Vector2.ZERO
+		instance.win.connect(func():
+			jessica.visible = false
+		)
+		instance.reset.connect(func():
+			jessica.visible = true 
+			_set_hiding_spot()
+		)
 	)
 
 
