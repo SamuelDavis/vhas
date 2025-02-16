@@ -1,15 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://duwnmsfmkcw0n"]
+[gd_scene load_steps=3 format=3 uid="uid://bh53ikugp7vdu"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_8yjt7"]
-[ext_resource type="Texture2D" uid="uid://huoq5el4wx0x" path="res://hide-and-seek-tileset.png" id="2_vptcl"]
+[ext_resource type="Script" path="res://player.gd" id="1_1xofo"]
+[ext_resource type="Texture2D" uid="uid://huoq5el4wx0x" path="res://hide-and-seek-tileset.png" id="2_g7g2s"]
 
 [node name="Jessica" type="CharacterBody2D"]
-script = ExtResource("1_8yjt7")
+script = ExtResource("1_1xofo")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PackedVector2Array(-5, -6, -6, -5, -6, 5, -5, 6, 5, 6, 6, 5, 6, -5, 5, -6)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_vptcl")
+texture = ExtResource("2_g7g2s")
 region_enabled = true
 region_rect = Rect2(0, 128, 16, 16)

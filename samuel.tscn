@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cos02363r7axp"]
+
+[ext_resource type="Texture2D" uid="uid://huoq5el4wx0x" path="res://hide-and-seek-tileset.png" id="1_0bt7k"]
+
+[node name="Samuel" type="Sprite2D"]
+position = Vector2(64, 160)
+texture = ExtResource("1_0bt7k")
+region_enabled = true
+region_rect = Rect2(16, 128, 16, 16)
