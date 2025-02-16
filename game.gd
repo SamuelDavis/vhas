@@ -75,11 +75,7 @@ func _check_hiding_spot(_event: InputEventMouseButton, idx: int, spots: Area2D) 
 
 	var dist := jessica.global_position.distance_to(res.position)
 	if dist < 10 and label.global_position == Vector2.ZERO:
-		if spot.name == hiding_spot:
-			_spawn_label(res.position, "Here!")
-			_spawn_samuel(res.position)
-		else:
-			_interact_with(spot, res.position)
+		_interact_with(spot, res.position)
 
 
 func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float = 2.0) -> void:
@@ -130,6 +126,7 @@ func _set_hiding_spot() -> void:
 
 func _interact_with(spot: CollisionShape2D, at: Vector2) -> void:
 	if endgame: return
+
 	var options: Array[String] = ["Not here!", "Somewhere else!"]
 
 	match spot.name:
@@ -156,4 +153,8 @@ func _interact_with(spot: CollisionShape2D, at: Vector2) -> void:
 			options.push_back("Not snacking.")
 			table.play()
 
-	_spawn_label(at, options.pick_random())
+	if spot.name == hiding_spot:
+		_spawn_label(at, "Here!")
+		_spawn_samuel(at)
+	else:
+		_spawn_label(at, options.pick_random())
