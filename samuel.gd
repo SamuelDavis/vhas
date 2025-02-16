@@ -16,8 +16,8 @@ func _ready() -> void:
 
 func _on_click() -> void:
 	if animation.current_animation == "hug" and animation.is_playing():
-		emit_signal("reset")
+		reset.emit()
 		queue_free()
 	else:
-		emit_signal("win")
+		win.emit()
 		animation.play("hug")
