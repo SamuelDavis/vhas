@@ -1,7 +1,7 @@
 extends Node2D
 
 
-@onready var jessica: CharacterBody2D = $World/Jessica
+@onready var jessica: Jessica = $World/Jessica
 @onready var first_hiding_spots: Area2D = $World/FirstFloor/HidingSpots
 @onready var second_hiding_spots: Area2D = $World/SecondFloor/HidingSpots
 @onready var ray: RayCast2D = $RayCast2D
@@ -10,6 +10,10 @@ extends Node2D
 @onready var first_floor: Node2D = $World/FirstFloor
 @onready var second_floor: Node2D = $World/SecondFloor
 @onready var active_floor: Node2D = $World/FirstFloor
+@onready var shower: AudioStreamPlayer2D = $Sound/Shower
+@onready var table: AudioStreamPlayer2D = $Sound/Table
+@onready var bed: AudioStreamPlayer2D = $Sound/Bed
+@onready var footstep: Footstep = $Sound/Footstep
 
 var samuel: PackedScene = preload("res://samuel.tscn")
 var hiding_spot: String = ""
@@ -28,6 +32,9 @@ func _ready() -> void:
 	stairs.body_entered.connect(_toggle_level)
 	_toggle_level(jessica)
 	_toggle_level(jessica)
+
+	jessica.moving.connect(footstep.play)
+	jessica.stopped.connect(footstep.stop)
 
 
 func _toggle_level(body) -> void:
@@ -72,7 +79,7 @@ func _check_hiding_spot(_event: InputEventMouseButton, idx: int, spots: Area2D) 
 			_spawn_label(res.position, "Here!")
 			_spawn_samuel(res.position)
 		else:
-			_spawn_label(res.position, _get_not_found_text(spot))
+			_interact_with(spot, res.position)
 
 
 func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float = 2.0) -> void:
@@ -102,13 +109,16 @@ func _spawn_samuel(at: Vector2) -> void:
 	var tween := create_tween()
 	tween.tween_property(instance, "scale", Vector2.ONE, 1.0)
 	tween.finished.connect(func():
-		instance.win.connect(func():
-			jessica.visible = false
-		)
-		instance.reset.connect(func():
-			jessica.visible = true 
-			_set_hiding_spot()
-		)
+		if instance:
+			instance.win.connect(func():
+				jessica.visible = false
+				endgame = true
+			)
+			instance.reset.connect(func():
+				jessica.visible = true 
+				_set_hiding_spot()
+				endgame = false
+			)
 	)
 
 
@@ -118,27 +128,32 @@ func _set_hiding_spot() -> void:
 	hiding_spot = first_floor_spot if randi() % 2 == 0 else second_floor_spot
 
 
-func _get_not_found_text(spot: CollisionShape2D) -> String:
+func _interact_with(spot: CollisionShape2D, at: Vector2) -> void:
+	if endgame: return
 	var options: Array[String] = ["Not here!", "Somewhere else!"]
 
 	match spot.name:
 		"Bath":
 			options.push_back("Not bathing.")
 			options.push_back("Not showering.")
+			shower.play()
 		"Shower":
 			options.push_back("Not showering.")
+			shower.play()
 		"Closet":
 			options.push_back("Just mess.")
 			options.push_back("No room!")
 		"Bed", "Guest", "Couch":
 			options.push_back("No naps!")
 			options.push_back("No napping.")
+			bed.play()
 		"Desk":
 			options.push_back("Your desk!")
 			options.push_back("Not under here!")
+			table.play()
 		"Table":
 			options.push_back("Not under here!")
 			options.push_back("Not snacking.")
+			table.play()
 
-
-	return options.pick_random()
+	_spawn_label(at, options.pick_random())

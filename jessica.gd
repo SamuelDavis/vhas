@@ -1,5 +1,9 @@
 extends CharacterBody2D
+class_name Jessica
 
+
+signal moving
+signal stopped
 
 @export var speed: float = 160.0
 @export var distance_margin: float = 5.0
@@ -12,8 +16,10 @@ func _physics_process(_delta: float) -> void:
 	var current_distance: float = global_position.distance_to(target_position)
 
 	if (current_distance < distance_margin
-	or current_distance > distance_to_target):
+	or current_distance > distance_to_target
+	or velocity.is_zero_approx()):
 		velocity = Vector2.ZERO
+		stopped.emit()
 
 	distance_to_target = current_distance
 
@@ -26,3 +32,4 @@ func _input(event: InputEvent) -> void:
 		target_position = event.position
 		distance_to_target = global_position.distance_to(target_position)
 		velocity = (target_position - global_position).normalized() * speed
+		moving.emit()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bh53ikugp7vdu"]
 
-[ext_resource type="Script" path="res://player.gd" id="1_1xofo"]
+[ext_resource type="Script" path="res://jessica.gd" id="1_1xofo"]
 [ext_resource type="Texture2D" uid="uid://huoq5el4wx0x" path="res://hide-and-seek-tileset.png" id="2_g7g2s"]
 
 [node name="Jessica" type="CharacterBody2D"]

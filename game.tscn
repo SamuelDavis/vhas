@@ -1,9 +1,15 @@
-[gd_scene load_steps=18 format=4 uid="uid://bogy08m838rqc"]
+[gd_scene load_steps=24 format=4 uid="uid://bogy08m838rqc"]
 
 [ext_resource type="TileSet" uid="uid://bsoy3bvex8g3r" path="res://tileset.tres" id="1_03qd3"]
 [ext_resource type="Texture2D" uid="uid://bblxm3w32oumn" path="res://hide-and-seek.png" id="1_4c7po"]
 [ext_resource type="Script" path="res://game.gd" id="1_i8lrh"]
-[ext_resource type="PackedScene" uid="uid://duwnmsfmkcw0n" path="res://player.tscn" id="4_8ndtp"]
+[ext_resource type="PackedScene" uid="uid://vk3kas34swkc" path="res://player.tscn" id="4_8ndtp"]
+[ext_resource type="AudioStream" uid="uid://d4ggejbac43m2" path="res://Home - Vlad Gluschenko  Royalty Free Music - No Copyright Music.mp3" id="5_3ix0y"]
+[ext_resource type="AudioStream" uid="uid://dt4k6hdjtadv2" path="res://shower.wav" id="6_l7gwh"]
+[ext_resource type="AudioStream" uid="uid://bt23p2ybhqdx6" path="res://table.wav" id="7_06kdp"]
+[ext_resource type="AudioStream" uid="uid://cokoocyo3o4hx" path="res://bed.wav" id="8_4tn7k"]
+[ext_resource type="Script" path="res://footstep.gd" id="9_8bl2s"]
+[ext_resource type="AudioStream" uid="uid://c65air7h4wkq6" path="res://footstep.wav" id="9_ijpdh"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qohi1"]
 
@@ -186,3 +192,27 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 1
 theme_override_font_sizes/font_size = 8
 text = "Not here!"
+
+[node name="Sound" type="Node" parent="."]
+
+[node name="Music" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("5_3ix0y")
+autoplay = true
+bus = &"Music"
+
+[node name="Shower" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("6_l7gwh")
+
+[node name="Table" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("7_06kdp")
+
+[node name="Bed" type="AudioStreamPlayer2D" parent="Sound"]
+stream = ExtResource("8_4tn7k")
+
+[node name="Footstep" type="Node" parent="Sound"]
+script = ExtResource("9_8bl2s")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Sound/Footstep"]
+stream = ExtResource("9_ijpdh")
+
+[node name="Timer" type="Timer" parent="Sound/Footstep"]
