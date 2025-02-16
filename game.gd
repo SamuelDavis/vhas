@@ -2,6 +2,7 @@ extends Node2D
 
 
 @onready var jessica: CharacterBody2D = $World/Jessica
+@onready var samuel: Sprite2D = $World/Samuel
 @onready var first_hiding_spots: Area2D = $World/FirstFloor/HidingSpots
 @onready var second_hiding_spots: Area2D = $World/SecondFloor/HidingSpots
 @onready var ray: RayCast2D = $RayCast2D
@@ -41,13 +42,13 @@ func _toggle_level(body) -> void:
 		active_floor = first_floor
 		first_floor.modulate = Color(1.0, 1.0, 1.0, 1)
 	else:
-		second_floor.visible = true 
+		second_floor.visible = true
 		active_floor = second_floor
 		first_floor.modulate = Color(0.5, 0.5, 0.5, 1)
 
 	for child in active_floor.get_children():
 		if child is TileMapLayer:
-			child.collision_enabled = true 
+			child.collision_enabled = true
 		if child is Area2D:
 			child.input_pickable = true
 
@@ -68,9 +69,9 @@ func _check_hiding_spot(_event: InputEventMouseButton, idx: int, spots: Area2D) 
 	if dist < 10 and label.global_position == Vector2.ZERO:
 		if spot.name == hiding_spot:
 			_spawn_label(res.position, "Here!")
-			_set_hiding_spot()
+			_spawn_samuel(res.position)
 		else:
-			_spawn_label(res.position, "Not here!")
+			_spawn_label(res.position, _get_not_found_text(spot))
 
 
 func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float = 2.0) -> void:
@@ -91,7 +92,46 @@ func _spawn_label(at: Vector2, text: String, distance: float = 36.0, time: float
 	)
 
 
+func _spawn_samuel(at: Vector2) -> void:
+	samuel.scale = Vector2.ZERO
+	samuel.global_position = at
+
+	var tween := create_tween()
+	tween.tween_property(samuel, "scale", Vector2.ONE, 1.0)
+	tween.finished.connect(func():
+		_set_hiding_spot()
+		samuel.scale = Vector2.ZERO
+		samuel.global_position = Vector2.ZERO
+	)
+
+
 func _set_hiding_spot() -> void:
 	var first_floor_spot = first_hiding_spots.get_children().pick_random().name
 	var second_floor_spot = second_hiding_spots.get_children().pick_random().name
 	hiding_spot = first_floor_spot if randi() % 2 == 0 else second_floor_spot
+
+
+func _get_not_found_text(spot: CollisionShape2D) -> String:
+	var options: Array[String] = ["Not here!", "Somewhere else!"]
+
+	match spot.name:
+		"Bath":
+			options.push_back("Not bathing.")
+			options.push_back("Not showering.")
+		"Shower":
+			options.push_back("Not showering.")
+		"Closet":
+			options.push_back("Just mess.")
+			options.push_back("No room!")
+		"Bed", "Guest", "Couch":
+			options.push_back("No naps!")
+			options.push_back("No napping.")
+		"Desk":
+			options.push_back("Your desk!")
+			options.push_back("Not under here!")
+		"Table":
+			options.push_back("Not under here!")
+			options.push_back("Not snacking.")
+
+
+	return options.pick_random()
