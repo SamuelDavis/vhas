@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=4 uid="uid://bogy08m838rqc"]
+[gd_scene load_steps=25 format=4 uid="uid://bogy08m838rqc"]
 
 [ext_resource type="TileSet" uid="uid://bsoy3bvex8g3r" path="res://tileset.tres" id="1_03qd3"]
 [ext_resource type="Texture2D" uid="uid://bblxm3w32oumn" path="res://hide-and-seek.png" id="1_4c7po"]
@@ -21,6 +21,9 @@ radius = 12.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wji2g"]
 size = Vector2(16, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_amiq2"]
+size = Vector2(15, 30)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qmxed"]
 size = Vector2(16, 28)
@@ -94,11 +97,11 @@ tile_map_data = PackedByteArray("AAABAAMAAQAAAAEAAAABAAQAAQAAAAEAAAABAAUAAQAAAAA
 tile_set = ExtResource("1_03qd3")
 
 [node name="Stuff" type="TileMapLayer" parent="World/FirstFloor"]
-tile_map_data = PackedByteArray("AAAJAAwAAQADAAIAAAACAAcAAQAAAAIAAAABAAwAAQAGAAMAAQAEAAUAAQAJAAMAAAAEAAMAAQAJAAMAAwAEAAIAAQAJAAAAAgAEAAEAAQAJAAAAAgABAAMAAQAHAAIAAAADAAUAAQAJAAEAAAACAAUAAQAJAAEAAAABAAUAAQAJAAEAAAABAAQAAQAJAAAAAAABAAIAAQAIAAAAAAALAAcAAQAJAAAAAQALAAgAAQAJAAAAAQAHAAcAAQADAAAAAAABAA4AAQACAAQAAQAFAAwAAQAHAAMAAQAIAAcAAQACAAAAAAABAAEAAQAJAAAAAAADAAwAAQAIAAMAAAACAA4AAQABAAcAAAAFAAkAAQAEAAYAAQAFAAoAAQAEAAAAAQA=")
+tile_map_data = PackedByteArray("AAAJAAwAAQADAAIAAAACAAcAAQAAAAIAAAABAAwAAQAGAAMAAQAEAAUAAQAJAAMAAAAEAAMAAQAJAAMAAwAEAAIAAQAJAAAAAgAEAAEAAQAJAAAAAgABAAMAAQAHAAIAAAADAAUAAQAJAAEAAAACAAUAAQAJAAEAAAABAAUAAQAJAAEAAAABAAQAAQAJAAAAAAABAAIAAQAIAAAAAAALAAcAAQAJAAAAAQALAAgAAQAJAAAAAQAHAAcAAQADAAAAAAABAA4AAQACAAQAAQAFAAwAAQAHAAMAAQAIAAcAAQACAAAAAAABAAEAAQAJAAAAAAADAAwAAQAIAAMAAAACAA4AAQABAAcAAAAFAAkAAQAEAAYAAQAFAAoAAQAEAAAAAQABAAoAAQAAAAYAAAAFAAsAAQACAAMAAAA=")
 tile_set = ExtResource("1_03qd3")
 
 [node name="Decals" type="TileMapLayer" parent="World/FirstFloor"]
-tile_map_data = PackedByteArray("AAALAAgAAQACAAEAAQALAAcAAQACAAEAAQABAAUAAQACAAIAAAA=")
+tile_map_data = PackedByteArray("AAALAAgAAQACAAEAAQALAAcAAQACAAEAAQABAAUAAQACAAIAAAACAAcAAQACAAMAAAA=")
 tile_set = ExtResource("1_03qd3")
 
 [node name="HidingSpots" type="Area2D" parent="World/FirstFloor"]
@@ -114,6 +117,10 @@ shape = SubResource("CircleShape2D_pd50g")
 [node name="Shower" type="CollisionShape2D" parent="World/FirstFloor/HidingSpots"]
 position = Vector2(120, 128)
 shape = SubResource("RectangleShape2D_wji2g")
+
+[node name="Treadmill" type="CollisionShape2D" parent="World/FirstFloor/HidingSpots"]
+position = Vector2(24.5, 168)
+shape = SubResource("RectangleShape2D_amiq2")
 
 [node name="SecondFloor" type="Node2D" parent="World"]
 visible = false

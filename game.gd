@@ -111,7 +111,7 @@ func _spawn_samuel(at: Vector2) -> void:
 				endgame = true
 			)
 			instance.reset.connect(func():
-				jessica.visible = true 
+				jessica.visible = true
 				_set_hiding_spot()
 				endgame = false
 			)
@@ -152,6 +152,8 @@ func _interact_with(spot: CollisionShape2D, at: Vector2) -> void:
 			options.push_back("Not under here!")
 			options.push_back("Not snacking.")
 			table.play()
+		"Treadmill":
+			options.push_back("Not running!")
 
 	if spot.name == hiding_spot:
 		_spawn_label(at, "Here!")
